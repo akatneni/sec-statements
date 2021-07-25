@@ -1,23 +1,28 @@
-import logo from './logo.svg';
 import './App.css';
+import SearchBar from './components/SearchBar';
+import {useState, useEffect} from "react";
+import fetch from "axios"
 
 function App() {
+  const [name, setName] = useState("");
+  const [cik,setCik] = useState("");
+
+  useEffect(() => {
+    fetch("https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json")
+      .then(
+        (result) => {
+            console.log(result.data.facts);
+        },
+        (error) => {
+            console.log(error);
+        }
+      )
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>{name} {cik}</h1>
+      <SearchBar parentSetCik={setCik} parentSetName={setName}/>
     </div>
   );
 }

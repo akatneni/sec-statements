@@ -19,6 +19,7 @@ function SearchBar(props) {
             var tickToCik = {};
             var nameToTick = {};
             var tickToName = {};
+            // eslint-disable-next-line
             text.split('\n').map(str => {
                   //const pair = str.split(/\s+/);
                   const vals = str.split("|");
@@ -52,6 +53,7 @@ function SearchBar(props) {
             const regex = new RegExp(`^${value}`,'i');
             sug1 = tickers.filter(v => regex.test(v));
             sug2 = names.filter(v => regex.test(v));
+            // eslint-disable-next-line
             sug2 = sug2.map(str => {
                 if(!sug1.includes(nameToTick[str])) {
                     return `(${nameToTick[str]}) ${str}`;
@@ -69,7 +71,7 @@ function SearchBar(props) {
     const renderSuggestions = () => {
         return (
             <datalist id='tickers'>
-                {suggestions.map(item=><option value={item}/>)}
+                {suggestions.map((item,index)=><option key={index} value={item}/>)}
             </datalist>
         );
     }

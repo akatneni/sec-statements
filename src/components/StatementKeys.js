@@ -2,10 +2,14 @@
 const incomeKeys = [
     "RevenueFromContractWithCustomerExcludingAssessedTax",
     "CostOfGoodsAndServicesSold",
+    "GrossProfit",
     "MarketingExpense",
+    "ResearchAndDevelopmentExpense",
+    "SellingGeneralAndAdministrativeExpense",
     "GeneralAndAdministrativeExpense",
-    "CostsAndExpenses",
     "OtherOperatingIncomeExpenseNet",
+    "CostsAndExpenses",
+    "OperatingExpenses",
     "OperatingIncomeLoss",
     "InvestmentIncomeInterest",
     "InterestExpense",
@@ -68,5 +72,7 @@ const balanceKeys = [
 ]
 
 export const allKeys = {
-    "is" : incomeStatementKeys
+    "is" : incomeKeys,
+    "cfs" : cashFlowKeys,
+    "bs" : balanceKeys
 }

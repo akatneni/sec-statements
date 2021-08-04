@@ -16,9 +16,9 @@ function SearchBar(props) {
         fetch(rawText)
         .then(r=>r.text())
         .then(text => {
-            var tickToCik = {};
-            var nameToTick = {};
-            var tickToName = {};
+            const tickToCik = {};
+            const nameToTick = {};
+            const tickToName = {};
             // eslint-disable-next-line
             text.split('\n').map(str => {
                   //const pair = str.split(/\s+/);
@@ -27,8 +27,8 @@ function SearchBar(props) {
                   nameToTick[vals[2]] = toUpper(vals[1]);
                   tickToName[toUpper(vals[1])] = vals[2];
             });
-            var tickers = Object.keys(tickToCik).sort();
-            var names = Object.keys(nameToTick).sort();
+            const tickers = Object.keys(tickToCik).sort();
+            const names = Object.keys(nameToTick).sort();
             setTickers(tickers);
             setNames(names);
             setTickToCik(tickToCik);
@@ -68,7 +68,7 @@ function SearchBar(props) {
         setSuggestions(suggestions);
     }
 
-    const renderSuggestions = () => {
+    const getSuggestions = () => {
         return (
             <datalist id='tickers'>
                 {suggestions.map((item,index)=><option key={index} value={item}/>)}
@@ -119,7 +119,7 @@ function SearchBar(props) {
         <div>
             <form className="input-group mb-3" onSubmit={handleSubmit}>
                 <input type="text" list="tickers" value={value} className="form-control" placeholder="Ticker" onChange={onTextChanged} aria-label="Ticker" aria-describedby="button-addon2"/>
-                {renderSuggestions()}
+                {getSuggestions()}
                 <input className="btn btn-outline-secondary" type="submit" value="Go" id="button-addon2"/>
             </form>
         </div>

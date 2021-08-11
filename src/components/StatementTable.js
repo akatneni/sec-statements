@@ -10,33 +10,55 @@ function StatementTable(props) {
         setSheet("is");
     },[]);
 
+
+    const fillIncome = () => {
+        const rows = allKeys[sheet].map((str,ind) => {
+            const keyData = props.data["facts"]["us-gaap"][str];
+            if(keyData) {
+                const usdVals = keyData["units"]["USD"];
+                return (
+                    <tr key={ind}>
+                        <td className="label">{keyData["label"]}</td>
+                        <td className="data">{usdVals[usdVals.length - 1]["val"] / 1000000}</td>
+                    </tr>
+                );
+            } else return null;
+        });
+        return rows;
+    }
+
+    const fillCashFlow = () => {
+
+    }
+
+    const fillBalance = () => {
+
+    }
+
+    const fillData = () => {
+        if(sheet === "is") {
+            return fillIncome();
+        } else if(sheet === "cfs") {
+            return fillCashFlow();
+        } else if(sheet === "bs") {
+            return fillBalance();
+        }
+    }
+
     const createTable = () => {
         if(props.loaded) {
             return (
                 <Table striped bordered hover size="sm">
                     <tbody>
-                    {allKeys[sheet].map((str) => {
-                        const keyData = props.data["facts"]["us-gaap"][str];
-                        if(keyData) {
-                            const usdVals = keyData["units"]["USD"];
-                            return (
-                                <tr>
-                                    <td className="label">{keyData["label"]}</td>
-                                    <td className="data">{usdVals[usdVals.length - 1]["val"] / 1000000}</td>
-                                </tr>
-                            );
-                        } else return null;
-                    })}
+                    {fillData()}
                     </tbody>
                 </Table>);
         }
     }
 
     return (
-        <div>
-            {createTable()}
-        </div>
-    )
+        <div>{createTable()}</div>
+    );
 }
 
 export default StatementTable;

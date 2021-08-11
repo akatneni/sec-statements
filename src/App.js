@@ -34,8 +34,12 @@ function App() {
   return (
     <div className="App">
       <h1>{name} {cik}</h1>
-      <SearchBar parentSetCik={setCik} parentSetName={setName}/>
-      <StatementTable data={data} loading={loading} loaded={loaded}/>
+        <div className="search-bar">
+            <SearchBar parentSetCik={setCik} parentSetName={setName}/>
+        </div>
+        <div className="statement-table">
+            <StatementTable data={data} loading={loading} loaded={loaded}/>
+        </div>
     </div>
   );
 }

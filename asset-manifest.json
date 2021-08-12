@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/sec-statements/static/css/main.3fffb409.chunk.css",
+    "main.js": "/sec-statements/static/js/main.fad1fe12.chunk.js",
+    "main.js.map": "/sec-statements/static/js/main.fad1fe12.chunk.js.map",
+    "runtime-main.js": "/sec-statements/static/js/runtime-main.4f339661.js",
+    "runtime-main.js.map": "/sec-statements/static/js/runtime-main.4f339661.js.map",
+    "static/css/2.4be38407.chunk.css": "/sec-statements/static/css/2.4be38407.chunk.css",
+    "static/js/2.cc100239.chunk.js": "/sec-statements/static/js/2.cc100239.chunk.js",
+    "static/js/2.cc100239.chunk.js.map": "/sec-statements/static/js/2.cc100239.chunk.js.map",
+    "static/js/3.9ef8d60a.chunk.js": "/sec-statements/static/js/3.9ef8d60a.chunk.js",
+    "static/js/3.9ef8d60a.chunk.js.map": "/sec-statements/static/js/3.9ef8d60a.chunk.js.map",
+    "index.html": "/sec-statements/index.html",
+    "static/css/2.4be38407.chunk.css.map": "/sec-statements/static/css/2.4be38407.chunk.css.map",
+    "static/css/main.3fffb409.chunk.css.map": "/sec-statements/static/css/main.3fffb409.chunk.css.map",
+    "static/js/2.cc100239.chunk.js.LICENSE.txt": "/sec-statements/static/js/2.cc100239.chunk.js.LICENSE.txt",
+    "static/media/cik_ticker.5c555605.csv": "/sec-statements/static/media/cik_ticker.5c555605.csv"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4f339661.js",
+    "static/css/2.4be38407.chunk.css",
+    "static/js/2.cc100239.chunk.js",
+    "static/css/main.3fffb409.chunk.css",
+    "static/js/main.fad1fe12.chunk.js"
+  ]
+}

@@ -1,25 +1,23 @@
 import {Table} from "react-bootstrap";
-import {useState, useEffect} from "react";
 import {allKeys} from "./StatementKeys";
 import "./StatementTable.css";
 
 function StatementTable(props) {
-    const [sheet, setSheet] = useState(null);
-
-    useEffect(() => {
-        setSheet("is");
-    },[]);
-
 
     const fillIncome = () => {
-        const rows = allKeys[sheet].map((str,ind) => {
+        const rows = allKeys[props.sheet].map((str,ind) => {
             const keyData = props.data["facts"]["us-gaap"][str];
             if(keyData) {
                 const usdVals = keyData["units"]["USD"];
+                const label = keyData["label"];
+                let val = usdVals[usdVals.length - 1]["val"];
+                if(!str.includes("PerShare")) {
+                    val /= 1000000
+                }
                 return (
                     <tr key={ind}>
-                        <td className="label">{keyData["label"]}</td>
-                        <td className="data">{usdVals[usdVals.length - 1]["val"] / 1000000}</td>
+                        <td className="label">{label}</td>
+                        <td className="data">{val}</td>
                     </tr>
                 );
             } else return null;
@@ -28,19 +26,53 @@ function StatementTable(props) {
     }
 
     const fillCashFlow = () => {
-
+        const rows = allKeys[props.sheet].map((str,ind) => {
+            const keyData = props.data["facts"]["us-gaap"][str];
+            if(keyData) {
+                const usdVals = keyData["units"]["USD"];
+                const label = keyData["label"];
+                let val = usdVals[usdVals.length - 1]["val"];
+                if(!str.includes("PerShare")) {
+                    val /= 1000000
+                }
+                return (
+                    <tr key={ind}>
+                        <td className="label">{label}</td>
+                        <td className="data">{val}</td>
+                    </tr>
+                );
+            } else return null;
+        });
+        return rows;
     }
 
     const fillBalance = () => {
-
+        const rows = allKeys[props.sheet].map((str,ind) => {
+            const keyData = props.data["facts"]["us-gaap"][str];
+            if(keyData) {
+                const usdVals = keyData["units"]["USD"];
+                const label = keyData["label"];
+                let val = usdVals[usdVals.length - 1]["val"];
+                if(!str.includes("PerShare")) {
+                    val /= 1000000
+                }
+                return (
+                    <tr key={ind}>
+                        <td className="label">{label}</td>
+                        <td className="data">{val}</td>
+                    </tr>
+                );
+            } else return null;
+        });
+        return rows;
     }
 
     const fillData = () => {
-        if(sheet === "is") {
+        if(props.sheet === "is") {
             return fillIncome();
-        } else if(sheet === "cfs") {
+        } else if(props.sheet === "cfs") {
             return fillCashFlow();
-        } else if(sheet === "bs") {
+        } else if(props.sheet === "bs") {
             return fillBalance();
         }
     }
@@ -57,7 +89,9 @@ function StatementTable(props) {
     }
 
     return (
-        <div>{createTable()}</div>
+        <div>
+            {createTable()}
+        </div>
     );
 }
 

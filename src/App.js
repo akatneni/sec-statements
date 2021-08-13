@@ -32,19 +32,34 @@ function App() {
       }
   }, [cik]);
 
+  const makePage = () => {
+      if(loaded) {
+          return (
+              <div className="loaded-page">
+                  <h1 className="name">{name}</h1>
+                  <div className="search-bar-loaded">
+                      <SearchBar parentSetCik={setCik} parentSetName={setName}/>
+                  </div>
+                  <div className="select-sheet">
+                      <SelectSheet parentSetSheet={setSheet}/>
+                  </div>
+                  <div className="statement-table">
+                      <StatementTable sheet={sheet} data={data} loading={loading} loaded={loaded}/>
+                  </div>
+              </div>
+          );
+      } else {
+          return (
+              <div className="search-bar-home">
+                  <SearchBar parentSetCik={setCik} parentSetName={setName}/>
+              </div>
+          );
+      }
+  }
 
   return (
     <div className="App">
-        <h1>{name} {cik}</h1>
-        <div className="search-bar">
-            <SearchBar parentSetCik={setCik} parentSetName={setName}/>
-        </div>
-        <div className="select-sheet">
-            <SelectSheet parentSetSheet={setSheet}/>
-        </div>
-        <div className="statement-table">
-            <StatementTable sheet={sheet} data={data} loading={loading} loaded={loaded}/>
-        </div>
+        {makePage()}
     </div>
   );
 }

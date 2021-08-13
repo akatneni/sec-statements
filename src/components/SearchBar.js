@@ -1,6 +1,6 @@
 import { toUpper } from "lodash";
 import {useState, useEffect} from "react";
-import rawText from "../resources/cik_ticker.csv";
+import dict from "../resources/company_tickers.json";
 
 function SearchBar(props) {
     const MAX_SUGGESTIONS = 10;
@@ -13,28 +13,26 @@ function SearchBar(props) {
     const [value, setValue] = useState("");
 
     const loadTickers = () => {
-        fetch(rawText)
-        .then(r=>r.text())
-        .then(text => {
-            const tickToCik = {};
-            const nameToTick = {};
-            const tickToName = {};
-            // eslint-disable-next-line
-            text.split('\n').map(str => {
-                  //const pair = str.split(/\s+/);
-                  const vals = str.split("|");
-                  tickToCik[toUpper(vals[1])] = vals[0];
-                  nameToTick[vals[2]] = toUpper(vals[1]);
-                  tickToName[toUpper(vals[1])] = vals[2];
-            });
-            const tickers = Object.keys(tickToCik).sort();
-            const names = Object.keys(nameToTick).sort();
-            setTickers(tickers);
-            setNames(names);
-            setTickToCik(tickToCik);
-            setNameToTick(nameToTick);
-            setTickToName(tickToName);
-        });
+        const tickToCik = {};
+        const nameToTick = {};
+        const tickToName = {};
+        const c = "cik", n = "title", t = "ticker";
+        for(const key in dict) {
+            const obj = dict[key];
+            tickToCik[toUpper(obj[t])] = obj[c];
+            nameToTick[obj[n]] = toUpper[obj[t]];
+            tickToName[toUpper(obj[t])] = obj[n];
+        }
+        const tickers = Object.keys(tickToCik).sort();
+        const names = Object.keys(nameToTick).sort();
+        for(const n in names) {
+            console.log(names[n]);
+        }
+        setTickers(tickers);
+        setNames(names);
+        setTickToCik(tickToCik);
+        setNameToTick(nameToTick);
+        setTickToName(tickToName);
     }
 
     useEffect(() => {
@@ -53,11 +51,10 @@ function SearchBar(props) {
             const regex = new RegExp(`^${value}`,'i');
             sug1 = tickers.filter(v => regex.test(v));
             sug2 = names.filter(v => regex.test(v));
-            // eslint-disable-next-line
             sug2 = sug2.map(str => {
                 if(!sug1.includes(nameToTick[str])) {
                     return `(${nameToTick[str]}) ${str}`;
-                }
+                } else return null;
             });
             sug1 = sug1.map(str => {
                 return `(${str}) ${tickToName[str]}`;

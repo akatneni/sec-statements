@@ -7,6 +7,21 @@
   text-align: center;
 }
 
+.name {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.search-bar-loaded {
+  max-width: 45%;
+  margin: 1rem auto auto;
+}
+
+.search-bar-home {
+  max-width: 45%;
+  margin: 20rem auto auto;
+}
+
 
 
 /*.App {*/

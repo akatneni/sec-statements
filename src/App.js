@@ -41,7 +41,7 @@ function App() {
                       <SearchBar parentSetCik={setCik} parentSetName={setName}/>
                   </div>
                   <div className="select-sheet">
-                      <SelectSheet parentSetSheet={setSheet}/>
+                      <SelectSheet sheet={sheet} parentSetSheet={setSheet}/>
                   </div>
                   <div className="statement-table">
                       <StatementTable sheet={sheet} data={data} loading={loading} loaded={loaded}/>

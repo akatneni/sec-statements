@@ -16,18 +16,15 @@ function SearchBar(props) {
         const tickToCik = {};
         const nameToTick = {};
         const tickToName = {};
-        const c = "cik", n = "title", t = "ticker";
+        const c = "cik_str", n = "title", t = "ticker";
         for(const key in dict) {
             const obj = dict[key];
             tickToCik[toUpper(obj[t])] = obj[c];
-            nameToTick[obj[n]] = toUpper[obj[t]];
+            nameToTick[obj[n]] = toUpper(obj[t]);
             tickToName[toUpper(obj[t])] = obj[n];
         }
         const tickers = Object.keys(tickToCik).sort();
         const names = Object.keys(nameToTick).sort();
-        for(const n in names) {
-            console.log(names[n]);
-        }
         setTickers(tickers);
         setNames(names);
         setTickToCik(tickToCik);
@@ -60,6 +57,7 @@ function SearchBar(props) {
                 return `(${str}) ${tickToName[str]}`;
             });
             suggestions = sug1.concat(sug2);
+            suggestions.sort();
             suggestions = suggestions.slice(0,MAX_SUGGESTIONS);
         }
         setSuggestions(suggestions);
@@ -91,12 +89,12 @@ function SearchBar(props) {
             props.parentSetName(value);
             props.parentSetCik(cik);
         } else {
-            var input = value;
+            let input = value;
             if(suggestions.length > 0) {
                 input = suggestions[0];
             }
-            var regex = /\(([^)]+)\)/;
-            var matches = regex.exec(input);
+            const regex = /\(([^)]+)\)/;
+            const matches = regex.exec(input);
             if(matches !== null && toUpper(matches[1]) in tickToCik) {
                 const cikNum = tickToCik[toUpper(matches[1])];
                 let cik = cikNum.toString();

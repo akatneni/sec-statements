@@ -5,13 +5,17 @@ import "./StatementTable.css";
 function StatementTable(props) {
 
     const fillIncome = () => {
-        const rows = allKeys[props.sheet].map((str,ind) => {
+        return allKeys[props.sheet].map((str, ind) => {
             const keyData = props.data["facts"]["us-gaap"][str];
-            if(keyData) {
-                const usdVals = keyData["units"]["USD"];
+            if (keyData) {
+                console.log(keyData);
+                let usdVals;
+                for (const key in keyData["units"]) {
+                    usdVals = keyData["units"][key];
+                }
                 const label = keyData["label"];
                 let val = usdVals[usdVals.length - 1]["val"];
-                if(!str.includes("PerShare")) {
+                if (!str.includes("PerShare")) {
                     val /= 1000000
                 }
                 return (
@@ -22,17 +26,16 @@ function StatementTable(props) {
                 );
             } else return null;
         });
-        return rows;
     }
 
     const fillCashFlow = () => {
-        const rows = allKeys[props.sheet].map((str,ind) => {
+        return allKeys[props.sheet].map((str, ind) => {
             const keyData = props.data["facts"]["us-gaap"][str];
-            if(keyData) {
+            if (keyData) {
                 const usdVals = keyData["units"]["USD"];
                 const label = keyData["label"];
                 let val = usdVals[usdVals.length - 1]["val"];
-                if(!str.includes("PerShare")) {
+                if (!str.includes("PerShare")) {
                     val /= 1000000
                 }
                 return (
@@ -43,17 +46,16 @@ function StatementTable(props) {
                 );
             } else return null;
         });
-        return rows;
     }
 
     const fillBalance = () => {
-        const rows = allKeys[props.sheet].map((str,ind) => {
+        return allKeys[props.sheet].map((str, ind) => {
             const keyData = props.data["facts"]["us-gaap"][str];
-            if(keyData) {
+            if (keyData) {
                 const usdVals = keyData["units"]["USD"];
                 const label = keyData["label"];
                 let val = usdVals[usdVals.length - 1]["val"];
-                if(!str.includes("PerShare")) {
+                if (!str.includes("PerShare")) {
                     val /= 1000000
                 }
                 return (
@@ -64,7 +66,6 @@ function StatementTable(props) {
                 );
             } else return null;
         });
-        return rows;
     }
 
     const fillData = () => {

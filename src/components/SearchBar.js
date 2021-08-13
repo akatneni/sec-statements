@@ -3,7 +3,7 @@ import {useState, useEffect} from "react";
 import dict from "../resources/company_tickers.json";
 
 function SearchBar(props) {
-    const MAX_SUGGESTIONS = 10;
+    const MAX_SUGGESTIONS = 20;
     const [suggestions, setSuggestions] = useState([]);
     const [tickers, setTickers] = useState([]);
     const [names, setNames] = useState([]);

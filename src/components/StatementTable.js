@@ -8,7 +8,6 @@ function StatementTable(props) {
         return allKeys[props.sheet].map((str, ind) => {
             const keyData = props.data["facts"]["us-gaap"][str];
             if (keyData) {
-                console.log(keyData);
                 let usdVals;
                 for (const key in keyData["units"]) {
                     usdVals = keyData["units"][key];
@@ -81,11 +80,14 @@ function StatementTable(props) {
     const createTable = () => {
         if(props.loaded) {
             return (
-                <Table striped bordered hover size="sm">
-                    <tbody>
-                    {fillData()}
-                    </tbody>
-                </Table>);
+                <div>
+                    <h6 className="caption">(in millions)</h6>
+                    <Table striped bordered hover size="sm">
+                        <tbody>
+                            {fillData()}
+                        </tbody>
+                    </Table>
+                </div>);
         }
     }
 

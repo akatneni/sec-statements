@@ -16,6 +16,7 @@ function App() {
   useEffect(() => {
       if(cik) {
           setLoading(true);
+          setLoaded(false);
           fetch(`https://data.sec.gov/api/xbrl/companyfacts/CIK${cik}.json`)
               .then(
                   (result) => {
@@ -33,7 +34,7 @@ function App() {
   }, [cik]);
 
   const makePage = () => {
-      if(loaded) {
+      if(cik) {
           return (
               <div className="loaded-page">
                   <h1 className="name">{name}</h1>

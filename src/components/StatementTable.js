@@ -1,8 +1,16 @@
 import {Table} from "react-bootstrap";
-import {allKeys} from "./StatementKeys";
+import {sheets,allKeys} from "./constants";
 import "./StatementTable.css";
 
 function StatementTable(props) {
+
+    const formatVal = (val,str) => {
+        if (!str.includes("PerShare")) {
+            val /= 1000000
+        }
+        val = val < 0 ? "(" + val.toLocaleString().substr(1) + ")": val.toLocaleString();
+        return val;
+    }
 
     const fillIncome = () => {
         return allKeys[props.sheet].map((str, ind) => {
@@ -14,9 +22,7 @@ function StatementTable(props) {
                 }
                 const label = keyData["label"];
                 let val = usdVals[usdVals.length - 1]["val"];
-                if (!str.includes("PerShare")) {
-                    val /= 1000000
-                }
+                val = formatVal(val,str);
                 return (
                     <tr key={ind}>
                         <td className="label">{label}</td>
@@ -34,9 +40,7 @@ function StatementTable(props) {
                 const usdVals = keyData["units"]["USD"];
                 const label = keyData["label"];
                 let val = usdVals[usdVals.length - 1]["val"];
-                if (!str.includes("PerShare")) {
-                    val /= 1000000
-                }
+                val = formatVal(val,str);
                 return (
                     <tr key={ind}>
                         <td className="label">{label}</td>
@@ -54,9 +58,7 @@ function StatementTable(props) {
                 const usdVals = keyData["units"]["USD"];
                 const label = keyData["label"];
                 let val = usdVals[usdVals.length - 1]["val"];
-                if (!str.includes("PerShare")) {
-                    val /= 1000000
-                }
+                val = formatVal(val,str);
                 return (
                     <tr key={ind}>
                         <td className="label">{label}</td>
@@ -68,11 +70,11 @@ function StatementTable(props) {
     }
 
     const fillData = () => {
-        if(props.sheet === "is") {
+        if(props.sheet === sheets.IS) {
             return fillIncome();
-        } else if(props.sheet === "cfs") {
+        } else if(props.sheet === sheets.CFS) {
             return fillCashFlow();
-        } else if(props.sheet === "bs") {
+        } else if(props.sheet === sheets.BS) {
             return fillBalance();
         }
     }

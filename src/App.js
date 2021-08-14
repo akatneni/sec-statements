@@ -3,15 +3,17 @@ import SearchBar from './components/SearchBar';
 import StatementTable from './components/StatementTable';
 import SelectSheet from './components/SelectSheet';
 import {useState, useEffect} from "react";
+import {sheets} from "./components/constants";
 import fetch from "axios";
 
 function App() {
   const [name, setName] = useState(null);
   const [cik,setCik] = useState(null);
-  const [sheet,setSheet] = useState("is");
+  const [sheet,setSheet] = useState(sheets.IS);
   const [data,setData] = useState({});
   const [loading,setLoading] = useState(false);
   const [loaded,setLoaded] = useState(false);
+  const [submissions,setSubmissions] = useState({});
 
   useEffect(() => {
       if(cik) {
@@ -30,6 +32,15 @@ function App() {
                       setLoading(false);
                   }
               )
+          fetch(`https://data.sec.gov/submissions/CIK${cik}.json`)
+              .then(
+                  (result) => {
+                      setSubmissions(result.data);
+                  },
+                  (error) => {
+                      console.log(error);
+                  }
+              )
       }
   }, [cik]);
 
@@ -45,7 +56,7 @@ function App() {
                       <SelectSheet sheet={sheet} parentSetSheet={setSheet}/>
                   </div>
                   <div className="statement-table">
-                      <StatementTable sheet={sheet} data={data} loading={loading} loaded={loaded}/>
+                      <StatementTable submissions={submissions} sheet={sheet} data={data} loading={loading} loaded={loaded}/>
                   </div>
               </div>
           );

@@ -1,6 +1,7 @@
 import {Button, ButtonGroup} from "react-bootstrap";
+import {sheets} from "./constants"
 
-const variant = "primary";
+const variant = "secondary";
 
 function SelectSheet(props) {
 
@@ -9,16 +10,15 @@ function SelectSheet(props) {
     }
 
     const handleActive = (sheet) => {
-        console.log(this);
         return sheet === props.sheet;
     }
 
     return (
         <div>
             <ButtonGroup onClick={handleClick}>
-                <Button variant={variant} value="is" active={handleActive("is")} selected={true}>Income Statement</Button>
-                <Button variant={variant} value="cfs" active={handleActive("cfs")}>Cash Flow Statement</Button>
-                <Button variant={variant} value="bs" active={handleActive("bs")}>Balance Sheet</Button>
+                <Button variant={variant} value={sheets.IS} active={handleActive(sheets.IS)} selected={true}>Income Statement</Button>
+                <Button variant={variant} value={sheets.CFS} active={handleActive(sheets.CFS)}>Cash Flow Statement</Button>
+                <Button variant={variant} value={sheets.BS} active={handleActive(sheets.BS)}>Balance Sheet</Button>
             </ButtonGroup>
         </div>
     )

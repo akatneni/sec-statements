@@ -27,7 +27,6 @@ const incomeKeys = [
 // financing: add payments, proceeds with debt/stock/share
 // can add free cash flow
 const cashFlowKeys = [
-    "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents",
     "NetIncomeLoss",
     "DepreciationDepletionAndAmortization",
     "ShareBasedCompensation",
@@ -71,8 +70,18 @@ const balanceKeys = [
     "LiabilitiesAndStockholdersEquity"
 ]
 
+const IS = "Income Statement";
+const CFS = "Cash Flow Statement";
+const BS = "Balance Sheet";
+
+export const sheets = {
+    IS: IS,
+    CFS: CFS,
+    BS: BS
+}
+
 export const allKeys = {
-    "is" : incomeKeys,
-    "cfs" : cashFlowKeys,
-    "bs" : balanceKeys
+    [IS] : incomeKeys,
+    [CFS] : cashFlowKeys,
+    [BS] : balanceKeys
 }

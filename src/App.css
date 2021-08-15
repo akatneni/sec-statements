@@ -8,6 +8,11 @@
   margin-top: 1rem;
 }
 
+.select-submissions {
+  margin: 1rem;
+  text-align: center;
+}
+
 .search-bar-loaded {
   max-width: 45%;
   margin: 1rem auto auto;

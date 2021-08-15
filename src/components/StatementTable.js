@@ -14,6 +14,16 @@ function StatementTable(props) {
     let endDates = [];
     const CASH_KEY = "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents";
 
+    const getColHeader = () => {
+        if(sheet !== sheets.BS) {
+            return (
+                <tr>
+                    <th className="label"></th>
+                    <th colSpan={FORM_COUNT}>{yearly ? "Twelve Months Ended" : "Three Months Ended"}</th>
+                </tr>)
+        }
+    }
+
     const isValidVal = (val, str) => {
         if(sheet === sheets.BS || str === CASH_KEY) {
             return endDates.includes(val["end"]);
@@ -112,10 +122,7 @@ function StatementTable(props) {
                     <h6 className="caption">(in millions)</h6>
                     <Table striped bordered hover size="sm">
                         <thead className="statement-header">
-                            <tr>
-                                <th className="label"></th>
-                                <th colSpan={FORM_COUNT}>{yearly ? "Twelve Months Ended" : "Three Months Ended"}</th>
-                            </tr>
+                            {getColHeader()}
                             <tr>
                                 <th className="label"></th>
                                 {fillDates()}

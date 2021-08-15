@@ -4,6 +4,7 @@ import StatementTable from './components/StatementTable';
 import {Alert} from "react-bootstrap";
 import {useState, useEffect} from "react";
 import fetch from "axios";
+import SelectSubmissions from "./components/SelectSubmissions";
 
 function App() {
   const [name, setName] = useState(null);
@@ -14,6 +15,7 @@ function App() {
   const [submissions,setSubmissions] = useState({});
   const [userInput,setUserInput] = useState("");
   const [showAlert,setShowAlert] = useState(false);
+  const [showSubmissions, setShowSubmissions] = useState(false);
 
   useEffect(() => {
       if(cik) {
@@ -59,6 +61,23 @@ function App() {
       }
   }, [cik]);
 
+  const loadTable = () => {
+      if(showSubmissions) {
+          return (
+              <div className="submissions-table">
+                  submissions table
+                  {/*<SubmissionsTable submissions={submissions} loaded={loaded} loading={loading}/>*/}
+              </div>
+          );
+      } else {
+          return (
+              <div className="statement-table">
+                  <StatementTable submissions={submissions} data={data} loaded={loaded} loading={loading}/>
+              </div>
+          );
+      }
+  }
+
   const makePage = () => {
       if(cik) {
           return (
@@ -70,9 +89,10 @@ function App() {
                           Unable to fetch statements
                       </Alert>
                   </div>
-                  <div className="statement-table">
-                      <StatementTable submissions={submissions} data={data} loading={loading} loaded={loaded}/>
+                  <div className="select-submissions">
+                      <SelectSubmissions showSubmissions={showSubmissions} parentSetShowSubmissions={setShowSubmissions}/>
                   </div>
+                  {loadTable()}
               </div>
           );
       } else {

@@ -4,9 +4,8 @@ const variant="secondary";
 
 function SelectYearly(props) {
     const handleClick = (e) => {
-        props.parentSetYearly(e.target.value);
+        props.parentSetYearly(e.target.value==="true");
     }
-
 
     return (
         <div>

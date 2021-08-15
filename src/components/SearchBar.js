@@ -1,6 +1,7 @@
 import { toUpper } from "lodash";
 import {useState, useEffect} from "react";
 import dict from "../resources/company_tickers.json";
+import {Alert} from "react-bootstrap";
 
 function SearchBar(props) {
     const MAX_SUGGESTIONS = 20;
@@ -11,6 +12,7 @@ function SearchBar(props) {
     const [nameToTick, setNameToTick] = useState({});
     const [tickToName, setTickToName] = useState({});
     const [value, setValue] = useState(props.input);
+    const [showAlert,setShowAlert] = useState(false);
 
     const loadTickers = () => {
         const tickToCik = {};
@@ -45,7 +47,7 @@ function SearchBar(props) {
         let sug1 = [];
         let sug2 = [];
         if (value.length > 0) {
-            const regex = new RegExp(`^${value}`,'i');
+            const regex = new RegExp(`^${encodeURI(value)}`,'i');
             sug1 = tickers.filter(v => regex.test(v));
             sug2 = names.filter(v => regex.test(v));
             sug2 = sug2.map(str => {
@@ -80,6 +82,7 @@ function SearchBar(props) {
             }
             props.parentSetName(tickToName[toUpper(value)]);
             props.parentSetCik(cik);
+            setShowAlert(false);
         } else if(value in nameToTick) {
             const cikNum = tickToCik[nameToTick[value]];
             let cik = cikNum.toString();
@@ -88,6 +91,7 @@ function SearchBar(props) {
             }
             props.parentSetName(value);
             props.parentSetCik(cik);
+            setShowAlert(false);
         } else {
             let input = value;
             if(suggestions.length > 0) {
@@ -103,8 +107,9 @@ function SearchBar(props) {
                 }
                 props.parentSetName(tickToName[toUpper(matches[1])]);
                 props.parentSetCik(cik);
+                setShowAlert(false);
             } else {
-                console.log("invalid input");
+                setShowAlert(true);
             }
         }
         props.parentSetInput(value);
@@ -118,6 +123,9 @@ function SearchBar(props) {
                 {getSuggestions()}
                 <input className="btn btn-outline-secondary" type="submit" value="Go" id="button-addon2"/>
             </form>
+            <Alert show={showAlert} variant="danger" onClose={() => setShowAlert(false)} dismissible>
+                Invalid name/ticker entered
+            </Alert>
         </div>
     );
 }

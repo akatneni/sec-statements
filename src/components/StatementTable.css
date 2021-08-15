@@ -1,10 +1,22 @@
+.table-settings {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
 .select-sheet {
-    text-align: center;
-    margin: 1rem;
+    margin-left: 1rem;
+    margin-right: .5rem;
+}
+
+.select-yearly {
+    margin-left:.5rem;
+    margin-right:1rem;
 }
 
 .label {
     text-align: left;
+    max-width: 19rem;
 }
 
 .data {
@@ -12,7 +24,7 @@
 }
 
 .caption {
-
+    margin: 1rem;
 }
 
 .statement-header {

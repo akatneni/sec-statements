@@ -15,8 +15,8 @@ function SelectSheet(props) {
 
     return (
         <div>
-            <ButtonGroup onClick={handleClick}>
-                <Button variant={variant} value={sheets.IS} active={handleActive(sheets.IS)} selected={true}>Income Statement</Button>
+            <ButtonGroup onClick={handleClick} size="sm">
+                <Button variant={variant} value={sheets.IS} active={handleActive(sheets.IS)}>Income Statement</Button>
                 <Button variant={variant} value={sheets.CFS} active={handleActive(sheets.CFS)}>Cash Flow Statement</Button>
                 <Button variant={variant} value={sheets.BS} active={handleActive(sheets.BS)}>Balance Sheet</Button>
             </ButtonGroup>

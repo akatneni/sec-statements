@@ -10,7 +10,7 @@ function SearchBar(props) {
     const [tickToCik, setTickToCik] = useState({});
     const [nameToTick, setNameToTick] = useState({});
     const [tickToName, setTickToName] = useState({});
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState(props.input);
 
     const loadTickers = () => {
         const tickToCik = {};
@@ -107,6 +107,7 @@ function SearchBar(props) {
                 console.log("invalid input");
             }
         }
+        props.parentSetInput(value);
         e.preventDefault();
     }
 

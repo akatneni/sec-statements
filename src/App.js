@@ -1,19 +1,17 @@
 import './App.css';
 import SearchBar from './components/SearchBar';
 import StatementTable from './components/StatementTable';
-import SelectSheet from './components/SelectSheet';
 import {useState, useEffect} from "react";
-import {sheets} from "./components/constants";
 import fetch from "axios";
 
 function App() {
   const [name, setName] = useState(null);
   const [cik,setCik] = useState(null);
-  const [sheet,setSheet] = useState(sheets.IS);
   const [data,setData] = useState({});
   const [loading,setLoading] = useState(false);
   const [loaded,setLoaded] = useState(false);
   const [submissions,setSubmissions] = useState({});
+  const [userInput,setUserInput] = useState("");
 
   useEffect(() => {
       if(cik) {
@@ -35,6 +33,7 @@ function App() {
           fetch(`https://data.sec.gov/submissions/CIK${cik}.json`)
               .then(
                   (result) => {
+                      console.log(result.data);
                       setSubmissions(result.data);
                   },
                   (error) => {
@@ -50,20 +49,17 @@ function App() {
               <div className="loaded-page">
                   <h1 className="name">{name}</h1>
                   <div className="search-bar-loaded">
-                      <SearchBar parentSetCik={setCik} parentSetName={setName}/>
-                  </div>
-                  <div className="select-sheet">
-                      <SelectSheet sheet={sheet} parentSetSheet={setSheet}/>
+                      <SearchBar input={userInput} parentSetInput={setUserInput} parentSetCik={setCik} parentSetName={setName}/>
                   </div>
                   <div className="statement-table">
-                      <StatementTable submissions={submissions} sheet={sheet} data={data} loading={loading} loaded={loaded}/>
+                      <StatementTable submissions={submissions} data={data} loading={loading} loaded={loaded}/>
                   </div>
               </div>
           );
       } else {
           return (
               <div className="search-bar-home">
-                  <SearchBar parentSetCik={setCik} parentSetName={setName}/>
+                  <SearchBar input={userInput} parentSetInput={setUserInput} parentSetCik={setCik} parentSetName={setName}/>
               </div>
           );
       }

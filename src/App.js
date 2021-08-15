@@ -5,6 +5,7 @@ import {Alert} from "react-bootstrap";
 import {useState, useEffect} from "react";
 import fetch from "axios";
 import SelectSubmissions from "./components/SelectSubmissions";
+import FilingTable from "./components/FilingTable";
 
 function App() {
   const [name, setName] = useState(null);
@@ -64,14 +65,13 @@ function App() {
   const loadTable = () => {
       if(showSubmissions) {
           return (
-              <div className="submissions-table">
-                  submissions table
-                  {/*<SubmissionsTable submissions={submissions} loaded={loaded} loading={loading}/>*/}
+              <div className="submissions-table app-table">
+                  <FilingTable cik={cik} submissions={submissions} loaded={loaded} loading={loading}/>
               </div>
           );
       } else {
           return (
-              <div className="statement-table">
+              <div className="statement-table app-table">
                   <StatementTable submissions={submissions} data={data} loaded={loaded} loading={loading}/>
               </div>
           );

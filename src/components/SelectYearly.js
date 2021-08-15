@@ -10,8 +10,8 @@ function SelectYearly(props) {
     return (
         <div>
             <ButtonGroup onClick={handleClick} size="sm">
-                <Button variant={variant} value={false} active={!props.yearly}>By Quarter</Button>
-                <Button variant={variant} value={true} active={props.yearly}>By Year</Button>
+                <Button variant={variant} value={false} active={!props.yearly}>Quarterly</Button>
+                <Button variant={variant} value={true} active={props.yearly}>Yearly</Button>
             </ButtonGroup>
         </div>
     )

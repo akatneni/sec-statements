@@ -18,7 +18,7 @@ function StatementTable(props) {
         if(sheet !== sheets.BS) {
             return (
                 <tr>
-                    <th className="label"></th>
+                    <th className="label"/>
                     <th colSpan={FORM_COUNT}>{yearly ? "Twelve Months Ended" : "Three Months Ended"}</th>
                 </tr>)
         }
@@ -58,7 +58,9 @@ function StatementTable(props) {
                 if (!str.includes("PerShare")) {
                     val /= 1000000
                 }
-                val = Math.round(val);
+                if (Math.abs(val) > 100) {
+                    val = Math.round(val);
+                }
                 val = val < 0 ? "(" + val.toLocaleString().substr(1) + ")" : val.toLocaleString();
                 vals[i] = val;
             }
@@ -107,40 +109,32 @@ function StatementTable(props) {
         });
     }
 
-    const createTable = () => {
-        if(props.loaded) {
-            return (
-                <div>
-                    <div className="table-settings">
-                        <div className="select-sheet">
-                            <SelectSheet sheet={sheet} parentSetSheet={setSheet}/>
-                        </div>
-                        <div className="select-yearly">
-                            <SelectYearly yearly={yearly} parentSetYearly={setYearly}/>
-                        </div>
+    if(props.loaded) {
+        return (
+            <div>
+                <div className="table-settings">
+                    <div className="select-sheet">
+                        <SelectSheet sheet={sheet} parentSetSheet={setSheet}/>
                     </div>
-                    <h6 className="caption">(in millions)</h6>
-                    <Table striped bordered hover size="sm">
-                        <thead className="statement-header">
-                            {getColHeader()}
-                            <tr>
-                                <th className="label"></th>
-                                {fillDates()}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {fillData()}
-                        </tbody>
-                    </Table>
-                </div>);
-        }
-    }
-
-    return (
-        <div>
-            {createTable()}
-        </div>
-    );
+                    <div className="select-yearly">
+                        <SelectYearly yearly={yearly} parentSetYearly={setYearly}/>
+                    </div>
+                </div>
+                <h6 className="caption">(in millions)</h6>
+                <Table striped bordered hover size="sm">
+                    <thead className="statement-header">
+                    {getColHeader()}
+                    <tr>
+                        <th className="label"/>
+                        {fillDates()}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {fillData()}
+                    </tbody>
+                </Table>
+            </div>);
+    } else return null;
 }
 
 export default StatementTable;

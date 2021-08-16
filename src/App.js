@@ -8,13 +8,13 @@ import SelectSubmissions from "./components/SelectSubmissions";
 import FilingTable from "./components/FilingTable";
 
 function App() {
-  const [name, setName] = useState(null);
-  const [cik,setCik] = useState(null);
+  const [name, setName] = useState(sessionStorage.getItem('name') || null);
+  const [cik,setCik] = useState(sessionStorage.getItem('cik') || null);
   const [data,setData] = useState({});
   const [loading,setLoading] = useState(false);
   const [loaded,setLoaded] = useState(false);
   const [submissions,setSubmissions] = useState({});
-  const [userInput,setUserInput] = useState("");
+  const [userInput,setUserInput] = useState(sessionStorage.getItem('userInput') || "");
   const [showAlert,setShowAlert] = useState(false);
   const [showSubmissions, setShowSubmissions] = useState(false);
 

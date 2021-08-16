@@ -13,6 +13,7 @@ function StatementTable(props) {
     const [yearly,setYearly] = useState(false);
     let endDates = [];
     const CASH_KEY = "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents";
+    let millions = false;
 
     const getColHeader = () => {
         if(sheet !== sheets.BS) {
@@ -56,9 +57,7 @@ function StatementTable(props) {
             let val = vals[i];
             if(!isNaN(val)) {
                 if (!str.includes("PerShare")) {
-                    val /= 1000000
-                }
-                if (Math.abs(val) > 100) {
+                    val /= millions ? 1000000 : 1000;
                     val = Math.round(val);
                 }
                 val = val < 0 ? "(" + val.toLocaleString().substr(1) + ")" : val.toLocaleString();
@@ -95,6 +94,9 @@ function StatementTable(props) {
                 }
                 const label = keyData["label"];
                 let vals = getVals(usdVals,str);
+                if(ind===0 && Math.abs(vals[0])>1000000000) {
+                    millions = true;
+                }
                 vals = formatVals(vals,str);
                 const tableData = vals.map((val,ind) => {
                     return (<td className="data" key={ind}>{val}</td>);
@@ -111,7 +113,7 @@ function StatementTable(props) {
 
     if(props.loaded) {
         return (
-            <div>
+            <div className="statement-table">
                 <div className="table-settings">
                     <div className="select-sheet">
                         <SelectSheet sheet={sheet} parentSetSheet={setSheet}/>
@@ -120,7 +122,7 @@ function StatementTable(props) {
                         <SelectYearly yearly={yearly} parentSetYearly={setYearly}/>
                     </div>
                 </div>
-                <h6 className="caption">(in millions)</h6>
+                <h6 className="caption">(in {millions ? "millions" : "thousands"})</h6>
                 <Table striped bordered hover size="sm">
                     <thead className="statement-header">
                     {getColHeader()}

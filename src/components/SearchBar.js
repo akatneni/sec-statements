@@ -74,24 +74,23 @@ function SearchBar(props) {
     }
 
     const handleSubmit = (e) => {
+        let finalCik = null, finalName = null;
         if(toUpper(value) in tickToCik) {
             const cikNum = tickToCik[toUpper(value)];
             let cik = cikNum.toString();
             while(cik.length < 10) {
                 cik = '0' + cik;
             }
-            props.parentSetName(tickToName[toUpper(value)]);
-            props.parentSetCik(cik);
-            setShowAlert(false);
+            finalName = tickToName[toUpper(value)];
+            finalCik = cik;
         } else if(value in nameToTick) {
             const cikNum = tickToCik[nameToTick[value]];
             let cik = cikNum.toString();
             while(cik.length < 10) {
                 cik = '0' + cik;
             }
-            props.parentSetName(value);
-            props.parentSetCik(cik);
-            setShowAlert(false);
+            finalName = value;
+            finalCik = cik;
         } else {
             let input = value;
             if(suggestions.length > 0) {
@@ -105,14 +104,21 @@ function SearchBar(props) {
                 while(cik.length < 10) {
                     cik = '0' + cik;
                 }
-                props.parentSetName(tickToName[toUpper(matches[1])]);
-                props.parentSetCik(cik);
-                setShowAlert(false);
+                finalName = tickToName[toUpper(matches[1])];
+                finalCik = cik;
             } else {
                 setShowAlert(true);
             }
         }
+        if(finalCik) {
+            props.parentSetCik(finalCik);
+            props.parentSetName(finalName);
+            setShowAlert(false);
+            sessionStorage.setItem('cik', finalCik);
+            sessionStorage.setItem('name', finalName);
+        }
         props.parentSetInput(value);
+        sessionStorage.setItem('userInput', value);
         e.preventDefault();
     }
 

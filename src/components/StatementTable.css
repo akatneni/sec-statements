@@ -1,17 +1,18 @@
 .table-settings {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-evenly;
+    align-items: center;
+    max-width: 40rem;
+    margin: auto;
 }
 
 .select-sheet {
-    margin-left: 1rem;
-    margin-right: .5rem;
+
 }
 
 .select-yearly {
-    margin-left: .5rem;
-    margin-right: 1rem;
+
 }
 
 .label {

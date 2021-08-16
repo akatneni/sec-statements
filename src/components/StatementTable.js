@@ -11,7 +11,6 @@ function StatementTable(props) {
 
     const [sheet,setSheet] = useState(sheets.IS);
     const [yearly,setYearly] = useState(false);
-    let endDates = [];
     const CASH_KEY = "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents";
     let millions = false;
 
@@ -27,9 +26,14 @@ function StatementTable(props) {
 
     const isValidVal = (val, str) => {
         if(sheet === sheets.BS || str === CASH_KEY) {
-            return endDates.includes(val["end"]);
+            if(str === "Assets") {
+            console.log(val["form"]); console.log(val["val"]);}
+            return yearly ? val["form"] === "10-K" : val["form"] === "10-Q" || val["form"] === "10-K" ;
         }
-        return yearly ? val["frame"].length === 6 : val["frame"].length === 8;
+        if(val["frame"]) {
+            return yearly ? val["frame"].length === 6 : val["frame"].length === 8;
+        }
+        return false;
     }
 
     const isValidDate = (form) => {
@@ -40,7 +44,7 @@ function StatementTable(props) {
         let vals = [];
         let count = 0;
         for(let i=usdVals.length-1;i>=0 && count<FORM_COUNT;--i) {
-            if(usdVals[i]["frame"] && isValidVal(usdVals[i],str)) {
+            if(isValidVal(usdVals[i],str)) {
                 vals.push(usdVals[i]["val"]);
                 ++count;
             }
@@ -57,7 +61,7 @@ function StatementTable(props) {
             let val = vals[i];
             if(!isNaN(val)) {
                 if (!str.includes("PerShare")) {
-                    val /= millions ? 1000000 : 1000;
+                    val /= (millions ? 1000000 : 1000);
                     val = Math.round(val);
                 }
                 val = val < 0 ? "(" + val.toLocaleString().substr(1) + ")" : val.toLocaleString();
@@ -77,10 +81,14 @@ function StatementTable(props) {
             }
             ++i;
         }
-        endDates = [];
+        indices = indices.map((val) => {return filings["reportDate"][val];});
+        while(indices.length < FORM_COUNT) {
+            const lastDate = indices[indices.length-1];
+            const newYear =  parseInt(lastDate.substr(0,4))-1;
+            indices.push(newYear + lastDate.substring(4));
+        }
         return indices.map((val, ind) => {
-            endDates.push(filings["reportDate"][val]);
-            return (<th key={ind}>{filings["reportDate"][val]}</th>);
+            return (<th key={ind}>{val}</th>);
         });
     }
 

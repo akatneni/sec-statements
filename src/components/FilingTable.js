@@ -27,19 +27,24 @@ function FilingTable(props) {
     }
 
     return (
-        <Table striped bordered hover size="sm">
-            <thead>
-                <tr>
-                    <th>Form type</th>
-                    <th>Form Description</th>
-                    <th>Filing Date</th>
-                    <th>Reporting Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                {fillTable()}
-            </tbody>
-        </Table>
+        <div>
+            <h6><a href={`https://www.sec.gov/edgar/browse/?CIK=${props.cik}&owner=exclude`}>
+                See all filings
+            </a></h6>
+            <Table striped bordered hover size="sm">
+                <thead>
+                    <tr>
+                        <th>Form type</th>
+                        <th>Form Description</th>
+                        <th>Filing Date</th>
+                        <th>Reporting Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {fillTable()}
+                </tbody>
+            </Table>
+        </div>
     );
 }
 

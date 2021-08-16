@@ -4,7 +4,7 @@ import dict from "../resources/company_tickers.json";
 import {Alert} from "react-bootstrap";
 
 function SearchBar(props) {
-    const MAX_SUGGESTIONS = 20;
+    const MAX_SUGGESTIONS = 50;
     const [suggestions, setSuggestions] = useState([]);
     const [tickers, setTickers] = useState([]);
     const [names, setNames] = useState([]);
@@ -40,10 +40,14 @@ function SearchBar(props) {
 
     // can be optimized
     const onTextChanged = (e) => {
-        setSuggestions([]);
         const value = e.target.value;
         setValue(value);
-        let suggestions = [];
+        if(suggestions.includes(value)) {
+            setSuggestions([value]);
+            submitVal();
+            return;
+        }
+        let allSug = [];
         let sug1 = [];
         let sug2 = [];
         if (value.length > 0) {
@@ -58,11 +62,11 @@ function SearchBar(props) {
             sug1 = sug1.map(str => {
                 return `(${str}) ${tickToName[str]}`;
             });
-            suggestions = sug1.concat(sug2);
-            suggestions.sort();
-            suggestions = suggestions.slice(0,MAX_SUGGESTIONS);
+            allSug = sug1.concat(sug2);
+            allSug.sort();
+            allSug = allSug.slice(0,MAX_SUGGESTIONS);
         }
-        setSuggestions(suggestions);
+        setSuggestions(allSug);
     }
 
     const getSuggestions = () => {
@@ -74,6 +78,11 @@ function SearchBar(props) {
     }
 
     const handleSubmit = (e) => {
+        submitVal();
+        e.preventDefault();
+    }
+
+    const submitVal = () => {
         let finalCik = null, finalName = null;
         if(toUpper(value) in tickToCik) {
             const cikNum = tickToCik[toUpper(value)];
@@ -119,7 +128,6 @@ function SearchBar(props) {
         }
         props.parentSetInput(value);
         sessionStorage.setItem('userInput', value);
-        e.preventDefault();
     }
 
     return (

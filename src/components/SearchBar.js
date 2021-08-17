@@ -3,21 +3,20 @@ import {useState, useEffect} from "react";
 import dict from "../resources/company_tickers.json";
 import {Alert} from "react-bootstrap";
 
+
+let tickers = [];
+let names = [];
+let tickToCik = {};
+let nameToTick = {};
+let tickToName = {};
+
 function SearchBar(props) {
     const MAX_SUGGESTIONS = 50;
     const [suggestions, setSuggestions] = useState([]);
-    const [tickers, setTickers] = useState([]);
-    const [names, setNames] = useState([]);
-    const [tickToCik, setTickToCik] = useState({});
-    const [nameToTick, setNameToTick] = useState({});
-    const [tickToName, setTickToName] = useState({});
     const [value, setValue] = useState(props.input);
     const [showAlert,setShowAlert] = useState(false);
 
     const loadTickers = () => {
-        const tickToCik = {};
-        const nameToTick = {};
-        const tickToName = {};
         const c = "cik_str", n = "title", t = "ticker";
         for(const key in dict) {
             const obj = dict[key];
@@ -25,13 +24,8 @@ function SearchBar(props) {
             nameToTick[obj[n]] = toUpper(obj[t]);
             tickToName[toUpper(obj[t])] = obj[n];
         }
-        const tickers = Object.keys(tickToCik).sort();
-        const names = Object.keys(nameToTick).sort();
-        setTickers(tickers);
-        setNames(names);
-        setTickToCik(tickToCik);
-        setNameToTick(nameToTick);
-        setTickToName(tickToName);
+        tickers = Object.keys(tickToCik).sort();
+        names = Object.keys(nameToTick).sort();
     }
 
     useEffect(() => {
@@ -40,18 +34,17 @@ function SearchBar(props) {
 
     // can be optimized
     const onTextChanged = (e) => {
-        const value = e.target.value;
-        setValue(value);
-        if(suggestions.includes(value)) {
-            setSuggestions([value]);
-            submitVal();
+        const val = e.target.value;
+        setValue(val);
+        if(suggestions.includes(val)) {
+            submitVal(val);
             return;
         }
         let allSug = [];
         let sug1 = [];
         let sug2 = [];
-        if (value.length > 0) {
-            const regex = new RegExp(`^${encodeURI(value)}`,'i');
+        if (val.length > 0) {
+            const regex = new RegExp(`^${encodeURI(val)}`,'i');
             sug1 = tickers.filter(v => regex.test(v));
             sug2 = names.filter(v => regex.test(v));
             sug2 = sug2.map(str => {
@@ -78,31 +71,31 @@ function SearchBar(props) {
     }
 
     const handleSubmit = (e) => {
-        submitVal();
+        submitVal(e.target.value);
         e.preventDefault();
     }
 
-    const submitVal = () => {
+    const submitVal = (val) => {
         let finalCik = null, finalName = null;
-        if(toUpper(value) in tickToCik) {
-            const cikNum = tickToCik[toUpper(value)];
+        if(toUpper(val) in tickToCik) {
+            const cikNum = tickToCik[toUpper(val)];
             let cik = cikNum.toString();
             while(cik.length < 10) {
                 cik = '0' + cik;
             }
-            finalName = tickToName[toUpper(value)];
+            finalName = tickToName[toUpper(val)];
             finalCik = cik;
-        } else if(value in nameToTick) {
-            const cikNum = tickToCik[nameToTick[value]];
+        } else if(val in nameToTick) {
+            const cikNum = tickToCik[nameToTick[val]];
             let cik = cikNum.toString();
             while(cik.length < 10) {
                 cik = '0' + cik;
             }
-            finalName = value;
+            finalName = val;
             finalCik = cik;
         } else {
-            let input = value;
-            if(suggestions.length > 0) {
+            let input = val;
+            if(!suggestions.includes(input) && suggestions.length > 0) {
                 input = suggestions[0];
             }
             const regex = /\(([^)]+)\)/;
@@ -126,8 +119,8 @@ function SearchBar(props) {
             sessionStorage.setItem('cik', finalCik);
             sessionStorage.setItem('name', finalName);
         }
-        props.parentSetInput(value);
-        sessionStorage.setItem('userInput', value);
+        props.parentSetInput(val);
+        sessionStorage.setItem('userInput', val);
     }
 
     return (

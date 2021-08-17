@@ -94,9 +94,16 @@ function StatementTable(props) {
     }
 
     const fillData = () => {
-        const revenueArr = props.data["facts"]["us-gaap"]["RevenueFromContractWithCustomerExcludingAssessedTax"]["units"]["USD"];
-        if(revenueArr[revenueArr.length-1]["val"]>10000000000) {
-            millions = true;
+        let set = false;
+        let revenueArr = props.data["facts"]["us-gaap"]["RevenueFromContractWithCustomerExcludingAssessedTax"];
+        if(revenueArr) {
+            revenueArr = revenueArr["units"]["USD"];
+            if(revenueArr && revenueArr[revenueArr.length-1]["val"]>10000000000) {
+                millions = true;
+                set = true;
+            } else if(revenueArr){
+                set = false;
+            }
         }
         return allKeys[sheet].map((str, ind) => {
             const keyData = props.data["facts"]["us-gaap"][str];
@@ -107,6 +114,10 @@ function StatementTable(props) {
                 }
                 const label = keyData["label"];
                 let vals = getVals(usdVals,str);
+                if(!set && ind===0 && vals[0]>10000000000) {
+                    set = true;
+                    millions = true;
+                }
                 vals = formatVals(vals,str);
                 const tableData = vals.map((val,ind) => {
                     return (<td className="data" key={ind}>{val}</td>);

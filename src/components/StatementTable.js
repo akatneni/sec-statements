@@ -26,8 +26,6 @@ function StatementTable(props) {
 
     const isValidVal = (val, str) => {
         if(sheet === sheets.BS || str === CASH_KEY) {
-            if(str === "Assets") {
-            console.log(val["form"]); console.log(val["val"]);}
             return yearly ? val["form"] === "10-K" : val["form"] === "10-Q" || val["form"] === "10-K" ;
         }
         if(val["frame"]) {
@@ -64,6 +62,9 @@ function StatementTable(props) {
                     val /= (millions ? 1000000 : 1000);
                     val = Math.round(val);
                 }
+                if(val === -0) {
+                    val = 0;
+                }
                 val = val < 0 ? "(" + val.toLocaleString().substr(1) + ")" : val.toLocaleString();
                 vals[i] = val;
             }
@@ -93,6 +94,10 @@ function StatementTable(props) {
     }
 
     const fillData = () => {
+        const revenueArr = props.data["facts"]["us-gaap"]["RevenueFromContractWithCustomerExcludingAssessedTax"]["units"]["USD"];
+        if(revenueArr[revenueArr.length-1]["val"]>10000000000) {
+            millions = true;
+        }
         return allKeys[sheet].map((str, ind) => {
             const keyData = props.data["facts"]["us-gaap"][str];
             if (keyData) {
@@ -102,9 +107,6 @@ function StatementTable(props) {
                 }
                 const label = keyData["label"];
                 let vals = getVals(usdVals,str);
-                if(ind===0 && Math.abs(vals[0])>1000000000) {
-                    millions = true;
-                }
                 vals = formatVals(vals,str);
                 const tableData = vals.map((val,ind) => {
                     return (<td className="data" key={ind}>{val}</td>);
@@ -120,6 +122,9 @@ function StatementTable(props) {
     }
 
     if(props.loaded) {
+        const colHeader = getColHeader();
+        const dates = fillDates();
+        const tableData = fillData();
         return (
             <div className="statement-table">
                 <div className="table-settings">
@@ -133,14 +138,14 @@ function StatementTable(props) {
                 <h6 className="caption">(in {millions ? "millions" : "thousands"})</h6>
                 <Table striped bordered hover size="sm">
                     <thead className="statement-header">
-                    {getColHeader()}
+                        {colHeader}
                     <tr>
                         <th className="label"/>
-                        {fillDates()}
+                        {dates}
                     </tr>
                     </thead>
                     <tbody>
-                    {fillData()}
+                        {tableData}
                     </tbody>
                 </Table>
             </div>);

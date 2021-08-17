@@ -28,7 +28,7 @@ function FilingTable(props) {
 
     return (
         <div>
-            <h6><a href={`https://www.sec.gov/edgar/browse/?CIK=${props.cik}&owner=exclude`}>
+            <h6><a href={`https://www.sec.gov/edgar/browse/?CIK=${props.cik}&owner=exclude`} target="_blank" rel="noreferrer">
                 See all filings
             </a></h6>
             <Table striped bordered hover size="sm">

@@ -23,6 +23,17 @@
   margin: 20rem auto auto;
 }
 
+a {
+  text-decoration: none;
+}
+
+.card-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+
 
 
 /*.App {*/

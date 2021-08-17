@@ -43,23 +43,27 @@ function SearchBar(props) {
         let allSug = [];
         let sug1 = [];
         let sug2 = [];
-        if (val.length > 0) {
-            const regex = new RegExp(`^${encodeURI(val)}`,'i');
-            sug1 = tickers.filter(v => regex.test(v));
-            sug2 = names.filter(v => regex.test(v));
-            sug2 = sug2.map(str => {
-                if(!sug1.includes(nameToTick[str])) {
-                    return `(${nameToTick[str]}) ${str}`;
-                } else return null;
-            });
-            sug1 = sug1.map(str => {
-                return `(${str}) ${tickToName[str]}`;
-            });
-            allSug = sug1.concat(sug2);
-            allSug.sort();
-            allSug = allSug.slice(0,MAX_SUGGESTIONS);
+        try {
+            if (val.length > 0) {
+                const regex = new RegExp(`^${encodeURI(val)}`, 'i');
+                sug1 = tickers.filter(v => regex.test(v));
+                sug2 = names.filter(v => regex.test(v));
+                sug2 = sug2.map(str => {
+                    if (!sug1.includes(nameToTick[str])) {
+                        return `(${nameToTick[str]}) ${str}`;
+                    } else return null;
+                });
+                sug1 = sug1.map(str => {
+                    return `(${str}) ${tickToName[str]}`;
+                });
+                allSug = sug1.concat(sug2);
+                allSug.sort();
+                allSug = allSug.slice(0, MAX_SUGGESTIONS);
+            }
+            setSuggestions(allSug);
+        } catch (e) {
+            console.log(e);
         }
-        setSuggestions(allSug);
     }
 
     const getSuggestions = () => {

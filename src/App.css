@@ -34,6 +34,15 @@ a {
   text-align: center;
 }
 
+@media screen and (max-width: 600px) {
+  .search-bar-home {
+    max-width: 80%;
+  }
+  .search-bar-loaded {
+    max-width: 80%;
+  }
+}
+
 
 
 /*.App {*/

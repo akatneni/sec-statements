@@ -134,8 +134,17 @@ function StatementTable(props) {
 
     if(props.loaded) {
         const colHeader = getColHeader();
-        const dates = fillDates();
-        const tableData = fillData();
+        let dates = [];
+        let tableData = null;
+        try {
+            dates = fillDates();
+        } catch (e) { console.log(e); }
+        try {
+            tableData = fillData();
+        } catch(e) {
+            console.log(e);
+            props.setShowAlert(true);
+        }
         return (
             <div className="statement-table">
                 <div className="table-settings">

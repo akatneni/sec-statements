@@ -13,7 +13,7 @@ let tickToName = {};
 function SearchBar(props) {
     const MAX_SUGGESTIONS = 50;
     const [suggestions, setSuggestions] = useState([]);
-    const [value, setValue] = useState(props.input);
+    const [value, setValue] = useState();
     const [showAlert,setShowAlert] = useState(false);
 
     const loadTickers = () => {
@@ -123,8 +123,8 @@ function SearchBar(props) {
             sessionStorage.setItem('cik', finalCik);
             sessionStorage.setItem('name', finalName);
         }
-        props.parentSetInput(val);
-        sessionStorage.setItem('userInput', val);
+        setValue("");
+        setSuggestions([]);
     }
 
     return (

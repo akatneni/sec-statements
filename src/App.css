@@ -36,6 +36,7 @@ a {
 
 @media screen and (max-width: 600px) {
   .search-bar-home {
+    margin: 10rem auto auto;
     max-width: 80%;
   }
   .search-bar-loaded {

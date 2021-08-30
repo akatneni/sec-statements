@@ -14,7 +14,6 @@ function App() {
   const [loading,setLoading] = useState(false);
   const [loaded,setLoaded] = useState(false);
   const [submissions,setSubmissions] = useState({});
-  const [userInput,setUserInput] = useState(sessionStorage.getItem('userInput') || "");
   const [showAlert,setShowAlert] = useState(false);
   const [showSubmissions, setShowSubmissions] = useState(false);
 
@@ -59,20 +58,24 @@ function App() {
                       setShowAlert(true);
                   }
               )
+          setShowAlert(false);
       }
   }, [cik]);
 
   const loadTable = () => {
+      if(showAlert) {
+          return null;
+      }
       if(showSubmissions) {
           return (
               <div className="submissions-table app-table">
-                  <FilingTable cik={cik} submissions={submissions} loaded={loaded} loading={loading}/>
+                  <FilingTable setShowAlert={setShowAlert} cik={cik} submissions={submissions} loaded={loaded} loading={loading}/>
               </div>
           );
       } else {
           return (
               <div className="statement-table app-table">
-                  <StatementTable submissions={submissions} data={data} loaded={loaded} loading={loading}/>
+                  <StatementTable setShowAlert={setShowAlert} submissions={submissions} data={data} loaded={loaded} loading={loading}/>
               </div>
           );
       }
@@ -84,8 +87,8 @@ function App() {
               <div className="loaded-page">
                   <h1 className="name">{name}</h1>
                   <div className="search-bar-loaded">
-                      <SearchBar input={userInput} parentSetInput={setUserInput} parentSetCik={setCik} parentSetName={setName}/>
-                      <Alert show={showAlert} variant="danger" onClose={() => setShowAlert(false)} dismissible>
+                      <SearchBar parentSetCik={setCik} parentSetName={setName}/>
+                      <Alert show={showAlert} variant="danger" >
                           Unable to fetch statements
                       </Alert>
                   </div>
@@ -100,7 +103,7 @@ function App() {
               <div>
                   <div className="search-bar-home">
                       <h5>Search for a company by ticker or by name</h5>
-                      <SearchBar input={userInput} parentSetInput={setUserInput} parentSetCik={setCik} parentSetName={setName}/>
+                      <SearchBar parentSetCik={setCik} parentSetName={setName}/>
                   </div>
                   <div className="card-footer">
                       <p> by <a href="https://github.com/akatneni" target="_blank" rel="noreferrer">Aryan Katneni</a>.
